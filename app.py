@@ -138,4 +138,4 @@ if __name__ == '__main__':
                     author_id INTEGER NOT NULL,
                     FOREIGN KEY (author_id) REFERENCES users (id))''')
     conn.close()
-    app.run(debug=True)
+    app.run(debug=False, host="0.0.0.0")
