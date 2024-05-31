@@ -1,15 +1,22 @@
 from flask import Flask, render_template, redirect, url_for, request, flash, session
-import sqlite3
+from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret-key-see-project'
-DATABASE = 'database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-def get_db():
-    conn = sqlite3.connect(DATABASE)
-    conn.row_factory = sqlite3.Row
-    return conn
+db = SQLAlchemy(app)
+
+# Define your models
+class Post(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    # Add other columns as needed...
+
+# Create the tables
+with app.app_context():
+    db.create_all()
 
 @app.route('/')
 def home():
